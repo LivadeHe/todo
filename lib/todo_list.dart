@@ -73,6 +73,9 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
                   child: TextField(
                     controller: taskController,
                     decoration: InputDecoration(labelText: 'New Task'),
+                    onSubmitted: (value) {
+                      _addTask(value, selectedDay, selectedMonth, selectedYear);
+                    }
                   ),
                 ),
                 DropdownButton<int>(

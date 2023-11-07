@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class ToDoItem {
   String task;
   bool isDone;
-  String? dueDate;
+  int? day;
+  int? month;
+  int? year;
 
-  ToDoItem(this.task, this.isDone, {this.dueDate = ""});
+  ToDoItem(this.task, this.isDone, {this.day, this.month, this.year});
 }
 
 class ToDoListWidget extends StatefulWidget {
@@ -16,15 +18,17 @@ class ToDoListWidget extends StatefulWidget {
 class _ToDoListWidgetState extends State<ToDoListWidget> {
   List<ToDoItem> todoItems = [];
   TextEditingController taskController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
+  int? selectedDay;
+  int? selectedMonth;
+  int? selectedYear;
 
-  void _addTask(String task, String? dueDate) {
+  void _addTask(String task, int? day, int? month, int? year) {
     if (task.isNotEmpty) {
       setState(() {
-        todoItems.add(ToDoItem(task, false, dueDate: dueDate));
+        todoItems.add(ToDoItem(task, false, day: day, month: month, year: year));
       });
       taskController.clear();
-      dateController.clear();
+      resetDropdowns();
     }
   }
 
@@ -38,6 +42,19 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
     setState(() {
       todoItems[index].isDone = !todoItems[index].isDone;
     });
+  }
+
+  void resetDropdowns() {
+    selectedDay = null;
+    selectedMonth = null;
+    selectedYear = null;
+  }
+
+  String? getDueDate(ToDoItem item) {
+    if (item.day != null && item.month != null && item.year != null) {
+      return '${item.day.toString().padLeft(2, '0')}.${item.month.toString().padLeft(2, '0')}.${item.year.toString()}';
+    }
+    return null;
   }
 
   @override
@@ -56,22 +73,60 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
                   child: TextField(
                     controller: taskController,
                     decoration: InputDecoration(labelText: 'New Task'),
-                    onSubmitted: (value) {
-                      _addTask(value, dateController.text);
-                    },
                   ),
                 ),
-                Expanded(
-                  child: TextField(
-                    controller: dateController,
-                    decoration: InputDecoration(labelText: 'Due Date'),
-                  ),
+                DropdownButton<int>(
+                  value: selectedDay,
+                  hint: Text('Day'),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedDay = value;
+                    });
+                  },
+                  items: List.generate(31, (index) => (index + 1))
+                      .map<DropdownMenuItem<int>>((int value) {
+                    return DropdownMenuItem<int>(
+                      value: value,
+                      child: Text(value.toString()),
+                    );
+                  }).toList(),
                 ),
-                                                   
+                DropdownButton<int>(
+                  value: selectedMonth,
+                  hint: Text('Month'),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedMonth = value;
+                    });
+                  },
+                  items: List.generate(12, (index) => (index + 1))
+                      .map<DropdownMenuItem<int>>((int value) {
+                    return DropdownMenuItem<int>(
+                      value: value,
+                      child: Text(value.toString()),
+                    );
+                  }).toList(),
+                ),
+                DropdownButton<int>(
+                  value: selectedYear,
+                  hint: Text('Year'),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedYear = value;
+                    });
+                  },
+                  items: List.generate(10, (index) => (2023 + index))
+                      .map<DropdownMenuItem<int>>((int value) {
+                    return DropdownMenuItem<int>(
+                      value: value,
+                      child: Text(value.toString()),
+                    );
+                  }).toList(),
+                ),
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
-                    _addTask(taskController.text, dateController.text);
+                    _addTask(taskController.text, selectedDay, selectedMonth, selectedYear);
                   },
                 ),
               ],
@@ -83,15 +138,15 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(todoItems[index].task),
-                  subtitle: Text('Due Date: ${todoItems[index].dueDate ?? "Not set"}'),
+                  subtitle: Text('Due Date: ${getDueDate(todoItems[index]) ?? "Not set"}'),
                   leading: Checkbox(
-                  value: todoItems[index].isDone,
-                  onChanged: (bool? value) {
-                    if (value != null) {
-                      _toggleTaskState(index);
-                    }
-                  },
-                ),
+                    value: todoItems[index].isDone,
+                    onChanged: (bool? value) {
+                      if (value != null) {
+                        _toggleTaskState(index);
+                      }
+                    },
+                  ),
                   trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {

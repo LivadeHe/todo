@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class ToDoItem {
   String task;
   bool isDone;
+  String? dueDate;
 
-  ToDoItem(this.task, this.isDone);
+  ToDoItem(this.task, this.isDone, {this.dueDate = ""});
 }
 
 class ToDoListWidget extends StatefulWidget {
@@ -15,13 +16,15 @@ class ToDoListWidget extends StatefulWidget {
 class _ToDoListWidgetState extends State<ToDoListWidget> {
   List<ToDoItem> todoItems = [];
   TextEditingController taskController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
 
-  void _addTask(String task) {
+  void _addTask(String task, String? dueDate) {
     if (task.isNotEmpty) {
       setState(() {
-        todoItems.add(ToDoItem(task, false));
+        todoItems.add(ToDoItem(task, false, dueDate: dueDate));
       });
       taskController.clear();
+      dateController.clear();
     }
   }
 
@@ -54,14 +57,21 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
                     controller: taskController,
                     decoration: InputDecoration(labelText: 'New Task'),
                     onSubmitted: (value) {
-                      _addTask(value);
-                    }
+                      _addTask(value, dateController.text);
+                    },
                   ),
                 ),
+                Expanded(
+                  child: TextField(
+                    controller: dateController,
+                    decoration: InputDecoration(labelText: 'Due Date'),
+                  ),
+                ),
+                                                   
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
-                    _addTask(taskController.text);
+                    _addTask(taskController.text, dateController.text);
                   },
                 ),
               ],
@@ -73,6 +83,7 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(todoItems[index].task),
+                  subtitle: Text('Due Date: ${todoItems[index].dueDate ?? "Not set"}'),
                   leading: Checkbox(
                   value: todoItems[index].isDone,
                   onChanged: (bool? value) {

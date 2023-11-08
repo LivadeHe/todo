@@ -56,6 +56,23 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
     }
     return null;
   }
+            Color getBackgroundColor(ToDoItem item) {
+            if (item.day == null || item.month == null || item.year == null) {
+              return Colors.green;
+            } 
+
+            final currentDate = DateTime.now();
+            final dueDate = DateTime(item.year!, item.month!, item.day!);
+            final difference = dueDate.difference(currentDate).inDays;
+
+            if (difference < 0) {
+              return Colors.red;
+            } else if (difference == 0 || difference == 1) {
+              return Colors.orange;
+            } else {
+              return Colors.green;
+            }
+          }
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +156,11 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
             child: ListView.builder(
               itemCount: todoItems.length,
               itemBuilder: (context, index) {
-                return ListTile(
+                final item = todoItems[index];
+                final backgroundColor = getBackgroundColor(item);
+                return Container(
+                  color: backgroundColor,                
+                child: ListTile(
                   title: Text(todoItems[index].task),
                   subtitle: Text('Due Date: ${getDueDate(todoItems[index]) ?? "Not set"}'),
                   leading: Checkbox(
@@ -155,6 +176,7 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
                     onPressed: () {
                       _removeTask(index);
                     },
+                  ),
                   ),
                 );
               },

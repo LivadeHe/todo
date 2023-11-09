@@ -50,6 +50,43 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
     selectedYear = null;
   }
 
+  Future<void> _showEditTaskDialog(BuildContext context, int index) async {
+  final TextEditingController textController = TextEditingController();
+  textController.text = todoItems[index].task; // Initialize the text field with the current task text.
+
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Edit Task'),
+        content: TextField(
+          controller: textController,
+          decoration: InputDecoration(labelText: 'Task'),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('Save'),
+            onPressed: () {
+              // Update the task text and close the dialog.
+              setState(() {
+                todoItems[index].task = textController.text;
+              });
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
   String? getDueDate(ToDoItem item) {
     if (item.day != null && item.month != null && item.year != null) {
       return '${item.day.toString().padLeft(2, '0')}.${item.month.toString().padLeft(2, '0')}.${item.year.toString()}';
@@ -152,32 +189,43 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
               ],
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: todoItems.length,
-              itemBuilder: (context, index) {
-                final item = todoItems[index];
-                final backgroundColor = item.isDone ? Colors.white : getBackgroundColor(item);
-                return Container(
-                  color: backgroundColor,                
-                child: ListTile(
-                  title: Text(todoItems[index].task),
-                  subtitle: Text('Due Date: ${getDueDate(todoItems[index]) ?? "Not set"}'),
-                  leading: Checkbox(
-                    value: todoItems[index].isDone,
-                    onChanged: (bool? value) {
-                      if (value != null) {
-                        _toggleTaskState(index);
-                      }
+Expanded(
+  child: ListView.builder(
+    itemCount: todoItems.length,
+    itemBuilder: (context, index) {
+      final item = todoItems[index];
+      final backgroundColor = getBackgroundColor(item);
+      return Container(
+        color: backgroundColor,
+        child: ListTile(
+          title: Text(todoItems[index].task),
+          subtitle: Text('Due Date: ${getDueDate(todoItems[index]) ?? "Not set"}'),
+          leading: Checkbox(
+            value: todoItems[index].isDone,
+            onChanged: (bool? value) {
+              if (value != null) {
+                _toggleTaskState(index);
+              }
+            },
+          ),
+          trailing: Row( 
+            mainAxisSize: MainAxisSize.min, 
+            children: [
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  _showEditTaskDialog(context, index);
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  _removeTask(index);
                     },
                   ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      _removeTask(index);
-                    },
+            ],
                   ),
-                  ),
+        ),
                 );
               },
             ),

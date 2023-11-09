@@ -255,7 +255,7 @@ Expanded(
     itemCount: todoItems.length,
     itemBuilder: (context, index) {
       final item = todoItems[index];
-      final backgroundColor = getBackgroundColor(item);
+      final backgroundColor = item.isDone ? Colors.white : getBackgroundColor(item);
       return Container(
         color: backgroundColor,
         child: ListTile(

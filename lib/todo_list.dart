@@ -50,16 +50,13 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
     selectedYear = null;
   }
 
-  _showEditTaskDialog(int index) {
+_showEditTaskDialog(int index) {
   final taskController = TextEditingController();
-  final dayController = TextEditingController();
-  final monthController = TextEditingController();
-  final yearController = TextEditingController();
-
   taskController.text = todoItems[index].task;
-  dayController.text = todoItems[index].day?.toString() ?? '';
-  monthController.text = todoItems[index].month?.toString() ?? '';
-  yearController.text = todoItems[index].year?.toString() ?? '';
+
+  int? selectedDay = todoItems[index].day;
+  int? selectedMonth = todoItems[index].month;
+  int? selectedYear = todoItems[index].year;
 
   showDialog(
     context: context,
@@ -75,25 +72,53 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
             ),
             Row(
               children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    controller: dayController,
-                    decoration: InputDecoration(labelText: 'Day'),
-                  ),
+                DropdownButton<int>(
+                  value: selectedDay,
+                  hint: Text('Day'),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedDay = value;
+                    });
+                  },
+                  items: List.generate(31, (index) => (index + 1))
+                      .map<DropdownMenuItem<int>>((int value) {
+                    return DropdownMenuItem<int>(
+                      value: value,
+                      child: Text(value.toString()),
+                    );
+                  }).toList(),
                 ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: TextField(
-                    controller: monthController,
-                    decoration: InputDecoration(labelText: 'Month'),
-                  ),
+                DropdownButton<int>(
+                  value: selectedMonth,
+                  hint: Text('Month'),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedMonth = value;
+                    });
+                  },
+                  items: List.generate(12, (index) => (index + 1))
+                      .map<DropdownMenuItem<int>>((int value) {
+                    return DropdownMenuItem<int>(
+                      value: value,
+                      child: Text(value.toString()),
+                    );
+                  }).toList(),
                 ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: TextField(
-                    controller: yearController,
-                    decoration: InputDecoration(labelText: 'Year'),
-                  ),
+                DropdownButton<int>(
+                  value: selectedYear,
+                  hint: Text('Year'),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedYear = value;
+                    });
+                  },
+                  items: List.generate(10, (index) => (2023 + index))
+                      .map<DropdownMenuItem<int>>((int value) {
+                    return DropdownMenuItem<int>(
+                      value: value,
+                      child: Text(value.toString()),
+                    );
+                  }).toList(),
                 ),
               ],
             ),
@@ -111,9 +136,9 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
             onPressed: () {
               setState(() {
                 todoItems[index].task = taskController.text;
-                todoItems[index].day = int.tryParse(dayController.text);
-                todoItems[index].month = int.tryParse(monthController.text);
-                todoItems[index].year = int.tryParse(yearController.text);
+                todoItems[index].day = selectedDay;
+                todoItems[index].month = selectedMonth;
+                todoItems[index].year = selectedYear;
               });
               Navigator.of(context).pop();
             },
@@ -123,9 +148,6 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
     },
   );
 }
-
-
-
   String? getDueDate(ToDoItem item) {
     if (item.day != null && item.month != null && item.year != null) {
       return '${item.day.toString().padLeft(2, '0')}.${item.month.toString().padLeft(2, '0')}.${item.year.toString()}';

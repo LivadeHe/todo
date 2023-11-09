@@ -50,18 +50,54 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
     selectedYear = null;
   }
 
-  Future<void> _showEditTaskDialog(BuildContext context, int index) async {
-  final TextEditingController textController = TextEditingController();
-  textController.text = todoItems[index].task; // Initialize the text field with the current task text.
+  _showEditTaskDialog(int index) {
+  final taskController = TextEditingController();
+  final dayController = TextEditingController();
+  final monthController = TextEditingController();
+  final yearController = TextEditingController();
 
-  return showDialog<void>(
+  taskController.text = todoItems[index].task;
+  dayController.text = todoItems[index].day?.toString() ?? '';
+  monthController.text = todoItems[index].month?.toString() ?? '';
+  yearController.text = todoItems[index].year?.toString() ?? '';
+
+  showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('Edit Task'),
-        content: TextField(
-          controller: textController,
-          decoration: InputDecoration(labelText: 'Task'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            TextField(
+              controller: taskController,
+              decoration: InputDecoration(labelText: 'Task'),
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    controller: dayController,
+                    decoration: InputDecoration(labelText: 'Day'),
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: TextField(
+                    controller: monthController,
+                    decoration: InputDecoration(labelText: 'Month'),
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: TextField(
+                    controller: yearController,
+                    decoration: InputDecoration(labelText: 'Year'),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         actions: <Widget>[
           TextButton(
@@ -73,9 +109,11 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
           TextButton(
             child: Text('Save'),
             onPressed: () {
-              // Update the task text and close the dialog.
               setState(() {
-                todoItems[index].task = textController.text;
+                todoItems[index].task = taskController.text;
+                todoItems[index].day = int.tryParse(dayController.text);
+                todoItems[index].month = int.tryParse(monthController.text);
+                todoItems[index].year = int.tryParse(yearController.text);
               });
               Navigator.of(context).pop();
             },
@@ -85,6 +123,7 @@ class _ToDoListWidgetState extends State<ToDoListWidget> {
     },
   );
 }
+
 
 
   String? getDueDate(ToDoItem item) {
@@ -214,7 +253,7 @@ Expanded(
               IconButton(
                 icon: Icon(Icons.edit),
                 onPressed: () {
-                  _showEditTaskDialog(context, index);
+                  _showEditTaskDialog(index);
                 },
               ),
               IconButton(

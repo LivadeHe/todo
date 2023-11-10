@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+In this project a Todo-List is created. In the ToDo-List you can add, delete and edit tasks and set due dates for Tasks. Additionally the tasks are highlighted in trafficlight colors when the task is urgent or overdeu.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

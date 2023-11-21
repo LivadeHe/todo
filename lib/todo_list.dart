@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+/*
 class ToDoItem {
   String task;
   bool isDone;
@@ -14,7 +14,7 @@ class ToDoListWidget extends StatefulWidget {
   @override
   _ToDoListWidgetState createState() => _ToDoListWidgetState();
 }
-
+*/
 class _ToDoListWidgetState extends State<ToDoListWidget> {
   List<ToDoItem> todoItems = [];
   TextEditingController taskController = TextEditingController();

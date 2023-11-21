@@ -1,42 +1,21 @@
 import 'package:flutter/material.dart';
-import 'todo_list.dart'; 
+import 'package:todo/presentation/item/todo_list_widget.dart';
+import 'package:todo/infrastructure/todo_repository.dart';
+import 'package:todo/presentation/item/todo_controller.dart';
 
 void main() {
-  runApp(MyApp(title: 'ToDo List'));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key, required this.title}) : super(key: key);
-
-
-  final String title;
+  final ToDoController _controller = ToDoController();
+  final ToDoRepository _repository = ToDoRepository();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Your App Name',
-      theme: ThemeData(
-        primarySwatch: Colors.teal, 
-      ),
-      home: MyHomePage(),
+      title: 'ToDo App',
+      home: ToDoListWidget(repository: _repository, controller: _controller),
     );
   }
-  }
-
-class MyHomePage extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr, // Hier können Sie die gewünschte Textrichtung festlegen
-      child: Scaffold(
-        appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("My ToDoList"),
-      ),
-      body: ToDoListWidget(), 
-      ),
-    );
-  }
-
 }

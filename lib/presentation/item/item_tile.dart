@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todolist/presentation/item/item_controller.dart';
+import 'package:todo/presentation/item/item_controller.dart';
 import '../../infrastructure/item.dart';
 import 'package:intl/intl.dart';
 
@@ -112,12 +112,13 @@ class ItemTile extends StatelessWidget {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
+              Get.back();
             },
             child: Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
-              // Änderungen im Controller speichern
+
               Get.find<ItemController>().editItem(item, editedTitle, editedDueDate);
               Navigator.of(context).pop();
             },
@@ -145,9 +146,9 @@ Future<DateTime?> _selectDate(BuildContext context, DateTime? initialDate) async
     now = DateTime(now.year, now.month, now.day);
 
     if (dueDate.isBefore(now)) {
-      return Colors.yellow.shade200; 
-    } else if (dueDate.difference(now).inDays == 0) {
       return Colors.blue.shade200;
+    } else if (dueDate.difference(now).inDays == 0) {
+      return Colors.yellow.shade200; 
     } else {
       return Colors.purple.shade200; 
     }

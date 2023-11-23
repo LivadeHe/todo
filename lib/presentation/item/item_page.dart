@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todolist/presentation/item/item_controller.dart';
+import 'package:todo/presentation/item/item_controller.dart';
 import '../../infrastructure/item.dart';
 
 // Hinzufügen neuer Element

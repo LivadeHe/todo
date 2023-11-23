@@ -27,6 +27,7 @@ class ItemListWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             return ItemTile(item: controller.items[index]);
           },
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
         ),
       ),
  floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

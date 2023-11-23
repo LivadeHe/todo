@@ -16,7 +16,7 @@ class ItemController extends GetxController {
     update();
   }
 
- void toggleTaskState(Item item) {
+  void toggleTaskState(Item item) {
     item.isDone = !item.isDone;
     update();
   }
@@ -32,10 +32,8 @@ class ItemController extends GetxController {
 
 
   void deleteItem(Item item) {
-  _itemRepository.deleteItem(item);
-  update();
-
-
+    _itemRepository.deleteItem(item);
+    update();
   }
 
 }

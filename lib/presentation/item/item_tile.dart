@@ -15,7 +15,11 @@ class ItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+     Color backgroundColor = _getBackgroundColor(item);
+
+    return Container(
+      color: backgroundColor,
+      child: ListTile(
       title: Text(
         item.title,
 
@@ -50,6 +54,7 @@ class ItemTile extends StatelessWidget {
             },
           ),
         ],
+      ),
       ),
     );
       
@@ -132,5 +137,21 @@ Future<DateTime?> _selectDate(BuildContext context, DateTime? initialDate) async
     lastDate: DateTime(2033),
   );
 }
+
+  Color _getBackgroundColor(Item item) {
+    DateTime now = DateTime.now();
+    DateTime dueDate = DateTime(item.year!, item.month!, item.day!);
+
+    now = DateTime(now.year, now.month, now.day);
+
+    if (dueDate.isBefore(now)) {
+      return Colors.yellow.shade200; 
+    } else if (dueDate.difference(now).inDays == 0) {
+      return Colors.blue.shade200;
+    } else {
+      return Colors.purple.shade200; 
+    }
+  }
+
 
 }

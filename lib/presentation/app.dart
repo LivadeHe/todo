@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo/presentation/authenticate/authenticate.dart';
 import 'item/item_list_widget.dart';
 
 
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: ItemListWidget(),
+      home: Authenticate(),
+      //home: ItemListWidget(),
     );
   }
 }

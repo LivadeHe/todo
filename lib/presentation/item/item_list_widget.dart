@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'item_page.dart';
@@ -17,7 +16,7 @@ class ItemListWidget extends StatelessWidget {
     double buttonHeight = MediaQuery.of(context).size.width * 0.05;
 
   Get.put(ItemController());
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Important To-Do-List'),

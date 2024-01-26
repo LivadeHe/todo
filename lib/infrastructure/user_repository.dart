@@ -1,27 +1,27 @@
-import 'user.dart';
+/*import 'user.dart';
 
 class UserRepository {
 
-  List<User> users = [];
+  List<UserItem> users = [];
 
   // Methoden zum adden, updatem, deleten etc 
 
-  void addUser(User user) {
+  void addUser(UserItem user) {
     users.add(user);
   }
 
 
-  void deleteItem(User user) {
+  void deleteItem(UserItem user) {
     users.remove(user);
   }
 
 
 
-  void editItem(User user, String newPassword) {
+  void editItem(UserItem user, String newPassword) {
   
     final index = users.indexOf(user);
     if (index != -1) {
-      users[index].userPassword = newPassword;  
+      users[index].password = newPassword;  
     }
   }
-}
+}*/

@@ -16,6 +16,8 @@ class ItemListWidget extends StatelessWidget {
     double buttonWidth = MediaQuery.of(context).size.width * 0.5;
     double buttonHeight = MediaQuery.of(context).size.width * 0.05;
 
+  Get.put(ItemController());
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Important To-Do-List'),

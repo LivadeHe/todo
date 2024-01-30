@@ -5,8 +5,6 @@ publish_to: 'none'
 
 =======
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
 
 >>>>>>> cc73b2e6c69e71cae38028fb61ad12fa3b2dda01
 version: 1.0.0+1

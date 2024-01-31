@@ -77,10 +77,13 @@ class ItemRepository {
 
 
   // Alle Items aus Firestore abrufen:
-  Stream<List<Item>> getItems() {
-    return itemCollection.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Item.fromFirestore(doc)).toList();
-    });
+Stream<List<Item>> getItems(String userId) {
+    return itemCollection
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) {
+          return snapshot.docs.map((doc) => Item.fromFirestore(doc)).toList();
+        });
   }
 
 }

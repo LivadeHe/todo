@@ -23,6 +23,7 @@ class Item {
       day: data['day'],
       month: data['month'],
       year: data['year'],
+      userId: data['userId']
     );
   }
 
@@ -34,6 +35,7 @@ class Item {
         'day': day,
         'month': month,
         'year': year,
+        'userId': userId,
       };
     }
 

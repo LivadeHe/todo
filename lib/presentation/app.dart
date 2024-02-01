@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo/presentation/authenticate/authenticate.dart';
-import 'item/item_list_widget.dart';
 
 
 // Klasse ist den Einstiegspunkt von Flutter-Anwendung 
@@ -16,7 +15,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       home: Authenticate(),
-      //home: ItemListWidget(),
     );
   }
 }

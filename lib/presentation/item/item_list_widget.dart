@@ -44,9 +44,8 @@ class ItemListWidget extends StatelessWidget {
         icon: Icon(Icons.add),
         label: Text('Add ToDo'),
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 16.0), // Optional: Anpassen der Padding
+          padding: EdgeInsets.symmetric(horizontal: 16.0), 
           minimumSize: Size(buttonWidth, buttonHeight),
-       // Setzen Sie die minimale Breite des Buttons
         ),
       ),
     );

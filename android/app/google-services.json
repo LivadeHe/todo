@@ -1,29 +1,25 @@
 {
-  "project_info": {
-    "project_number": "505371924663",
-    "project_id": "madv-todo",
-    "storage_bucket": "madv-todo.appspot.com"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:505371924663:android:779a82b43689844967d532",
-        "android_client_info": {
-          "package_name": "com.example.todo"
+    "project_info": {
+        "project_number": "505371924663",
+        "project_id": "madv-todo",
+        "storage_bucket": "madv-todo.appspot.com"
+    },
+    "client": [{
+        "client_info": {
+            "mobilesdk_app_id": "1:505371924663:android:779a82b43689844967d532",
+            "android_client_info": {
+                "package_name": "com.example.todo"
+            }
+        },
+        "oauth_client": [],
+        "api_key": [{
+            "current_key": "AIzaSyDFdhfycgmnW8swm8fJrvETirN3ESv7HxM"
+        }],
+        "services": {
+            "appinvite_service": {
+                "other_platform_oauth_client": []
+            }
         }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDFdhfycgmnW8swm8fJrvETirN3ESv7HxM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    }
-  ],
-  "configuration_version": "1"
+    }],
+    "configuration_version": "1"
 }

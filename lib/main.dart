@@ -1,8 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'presentation/app.dart';
 import 'firebase_options.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,11 +8,7 @@ void main() async {
   runApp(MyApp());
 }
 
-/*
-Future<void> main() async {
-   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
- );
-  runApp(MyApp());
-  
-}*/
+
+// test@test.com PW test1234
+// lisa@lisa.com PW lisa1234
+// markus@markus.com PW markus1234

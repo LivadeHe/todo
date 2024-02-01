@@ -99,13 +99,6 @@ class ItemTile extends StatelessWidget {
               },
               child: Text('Select Due Date'),
             ),
-            // TODO: Neue ausgewählter Datum anzeigen lassen --> statefulwidget
-            /*SizedBox(height: 16),
-            Text(
-              "Selected Due Date: ${dateController.text}",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-            */
           ],
         ),
         actions: [

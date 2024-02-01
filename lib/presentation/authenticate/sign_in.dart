@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo/presentation/item/item_list_widget.dart';
-import 'package:todo/presentation/item/item_page.dart';
-import 'package:todo/services/auth.dart';
+import 'package:todo/infrastructure/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -26,10 +25,14 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(184, 185, 185, 1),
+      
       appBar: AppBar(
+        
         backgroundColor: Colors.pink[100],
         elevation: 0.0,
-        title: Text('Sign in to My To Do List')
+        centerTitle: true,
+        title: Text(
+        'Sign in to My To Do List'),
         ), 
         body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -39,6 +42,10 @@ class _SignInState extends State<SignIn> {
             children: <Widget>[
               SizedBox(height: 20.0),
               TextFormField(
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  hintText: 'Enter your email',
+                ),
                 validator: (String? val) {
                   if (val == null || val.isEmpty) {
                     return 'Enter an email';
@@ -51,9 +58,13 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  hintText: 'Enter your password',
+                ),
                 obscureText: true,
                 validator: (String? val) {
-                  if (val == null || val.length < 4) {
+                  if (val == null || val.length < 6) {
                     return 'Enter a password 6+ chars long';
                   }
                   return null;

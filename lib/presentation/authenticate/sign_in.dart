@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:todo/presentation/item/item_list_widget.dart';
 import 'package:todo/presentation/item/item_page.dart';
 import 'package:todo/services/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignIn extends StatefulWidget {
   //const SignIn({super.key});
@@ -66,23 +67,26 @@ class _SignInState extends State<SignIn> {
                  style: ElevatedButton.styleFrom(
                     primary: Colors.pink[400], 
                   ),
+                onPressed: () async {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                    if (result == null) {
+                      setState(() {
+                        error = 'Could not sign in with those credentials';
+                      });
+                    } else {
+                      // Erfassung der Benutzerinformationen und Weiterleitung zur Todo-Liste
+                      User? user = await _auth.getCurrentUser();
+                      if (user != null) {
+                        Get.to(ItemListWidget(userId: user.uid));
+                      }
+                    }
+                  }
+                },
                 child: Text(
                   'Sign In',
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () async {
-                  if(_formKey.currentState?.validate() ?? false){
-                    dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                    if(result == null) {
-                      setState(() {
-                        error = 'Could not sign in with those credentials';
-                      });
-                    }
-                    else{ 
-                      Get.to(ItemListWidget());
-                    }
-                  }
-                }
               ),
               SizedBox(height: 12.0),
               Text(

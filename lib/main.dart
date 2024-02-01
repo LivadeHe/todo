@@ -32,7 +32,8 @@ void main() async {
   runApp(MyApp());
 }
 
-/*Future<void> main() async {
+/*
+Future<void> main() async {
    await Firebase.initializeApp(
   options: DefaultFirebaseOptions.currentPlatform,
  );

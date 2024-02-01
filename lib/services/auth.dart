@@ -9,6 +9,9 @@ class AuthService {
   // create instance 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Future<User?> getCurrentUser() async {
+    return FirebaseAuth.instance.currentUser;
+  }
 
  /* User _userFromFirebaseUser(User user) {
     return user != null ? User(uid: user.uid) : null;

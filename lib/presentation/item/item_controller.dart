@@ -3,6 +3,7 @@ import '../../infrastructure/item.dart';
 import '../../infrastructure/item_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todo/infrastructure/item_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 // VERANTWORTLICH FÜR ZUSTAND DES ITEMS 
@@ -11,19 +12,16 @@ import 'package:todo/infrastructure/item_repository.dart';
 
 class ItemController extends GetxController {
   final ItemRepository _itemRepository = ItemRepository();
-
-  //Alt:
-  //List<Item> get items => _itemRepository.items;
   RxList<Item> items = <Item>[].obs;
   // RxList ermöglicht eine einfache aktualisierung von UIs bei Änderung in/an der Liste
+  //Alt:
+  //List<Item> get items => _itemRepository.items;
+  String userId;
 
-  // TODO DELETE?
-  //final CollectionReference itemsCollection = FirebaseFirestore.instance.collection('items');
+  ItemController({required this.userId});
+  
 
 
-  // Lädt die Elemente aus Firebase beim Initialisieren vom Controller
-  // onInit wird aufgerufen, wenn Controller erstellt wird. lädt die Items aus dem Firebase(db), 
-  // 
 
    @override
   void onInit() {  
@@ -33,7 +31,7 @@ class ItemController extends GetxController {
 
   // Nutzt die Stream von ItemRepository, damit die Liste automatisch aktualisiert wird
   void _loadItems() {
-    _itemRepository.getItems().listen((List<Item> data) {
+    _itemRepository.getItems(userId).listen((List<Item> data) {
       items.assignAll(data);
       update();
     });
@@ -49,6 +47,8 @@ class ItemController extends GetxController {
   }
   */
   Future<void> addItem(Item item) async {
+    // Stellen Sie sicher, dass userId beim Hinzufügen gesetzt ist.
+    item.userId = FirebaseAuth.instance.currentUser?.uid;
     await _itemRepository.addItem(item);
     update();
   }
@@ -92,9 +92,17 @@ class ItemController extends GetxController {
     update();
   }
 
+    // TODO DELETE?
+  //final CollectionReference itemsCollection = FirebaseFirestore.instance.collection('items');
+
+
+  // Lädt die Elemente aus Firebase beim Initialisieren vom Controller
+  // onInit wird aufgerufen, wenn Controller erstellt wird. lädt die Items aus dem Firebase(db), 
+  // 
+
   // Alle Items aus Firebase abrufen
 Stream<List<Item>> getItems() {
-  return _itemRepository.getItems();
+  return _itemRepository.getItems(userId);
 }
 
 }

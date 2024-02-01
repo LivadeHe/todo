@@ -10,19 +10,24 @@ import 'item_tile.dart';
 // GetBuilder<ItemController> --> überwacht Änderungen im Itemcontroller & aktualisiert die Liste
 
 class ItemListWidget extends StatelessWidget {
+  final String userId;
+
+  ItemListWidget({required this.userId});
+
   @override
   Widget build(BuildContext context) {
+    Get.put(ItemController(userId: userId));
     double buttonWidth = MediaQuery.of(context).size.width * 0.5;
     double buttonHeight = MediaQuery.of(context).size.width * 0.05;
 
-  Get.put(ItemController());
+  Get.put(ItemController(userId: userId));
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Important To-Do-List'),
       ),
       body: GetBuilder<ItemController>(
-        init: ItemController(),
+        init: ItemController(userId: userId),
         builder: (controller) => ListView.builder(
           itemCount: controller.items.length,
           itemBuilder: (context, index) {
